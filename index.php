@@ -4,7 +4,7 @@
 	// 默认文件夹名称
 	$dir='main';
 	// 默认文件名称
-	$filename='index';
+	$filename='login';
 	// 判断数组$_SEVEN中是否包含指定属性 array_key_exists('PATH_INFO',$_SERVERS)
 	// 判断路径是否存在
 	if(array_key_exists('PATH_INFO',$_SERVER)){

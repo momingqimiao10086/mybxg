@@ -1,4 +1,4 @@
-define(['jquery','cookie'],function($){
+define(['jquery','template','cookie'],function($,template){
 
 // 所有的自己写的公共样式,处了login，login自己写了一个
 
@@ -49,11 +49,15 @@ define(['jquery','cookie'],function($){
 
   // 获取登录信息  跳转到首页， 因为这个是公共页面，index也会引入，所以写在这也可以
   //将获取到的用户信息转换成对象，并填充到页面中
-  var loginInfo=JSON.parse($.cookie('loginInfo'));
+  var cookie=$.cookie('loginInfo');
+  // 判断一下是否有数据，有再转字符串
+  var loginInfo=cookie?JSON.parse(cookie):{};
   // console.log(loginInfo);
-  $('.profile img').attr('src',loginInfo.tc_avatar);
+ /* $('.profile img').attr('src',loginInfo.tc_avatar);
   $('.profile h4').html(loginInfo.tc_name);
-
-
+*/
+  var tpl='<div class="avatar img-circle"><img src="{{tc_avatar}}"></div><h4>{{tc_name}}</h4>';
+  var html=template.render(tpl,loginInfo);
+  $('#profileInfo').html(html);
 });
 	
