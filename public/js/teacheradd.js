@@ -1,4 +1,4 @@
-define(['jquery','template','util'],function($,template,util){
+define(['jquery','template','util','datepicker','language','validate','form'],function($,template,util){
 	//设置导航菜单选中
 	util.setMenu('/teacher/teacher_list');
 	// 获取地址栏中的ID值
@@ -31,8 +31,8 @@ define(['jquery','template','util'],function($,template,util){
 		// 绑定添加的提交事件
 		submitForm('/api/teacher/add');
 	}
-
-	function submitForm(url){
+	// ajax 的方式提交
+	/*function submitForm(url){
 		$('#formBtn').click(function(){
 			$.ajax({
 			type:'post',
@@ -51,6 +51,42 @@ define(['jquery','template','util'],function($,template,util){
 		})
 		
 	}
-	
-
+	*/
+	// 用插件的方式提交表单
+	function submitForm(url){
+		$('#formId').validate({
+			// 禁止默认提交
+			sendForm:false,
+			valid:function(){
+				// console.log(111);
+				// 有数据说明可以提交，要做验证处理，添加属性
+				$(this).ajaxSubmit({
+					type:'post',
+					url:url,
+					success:function(data){
+						// console.log(data);
+						if(data.code==200){
+							location.href='/teacher/teacher_list';
+						}
+					}
+				});
+			},
+			// tc_name的提示信息 定制属性
+			description:{
+				tc_name:{
+					required:'用户名不能为空',
+					valid:'用户名可以使用'
+				},
+				tc_pass:{
+					required:'密码不能为空',
+					valid:'密码可以使用',
+					pattern:'必须是6位数字'
+				},
+				tc_join_date:{
+					required:'日期不能为空',
+					valid:'日期可以使用'
+				}
+			}
+		});
+	}
 });
